@@ -1,0 +1,10 @@
+source "https://rubygems.org"
+
+gem "sinatra"
+gem "sinatra-contrib"
+gem "sinatra-reloader"
+gem "sinatra-cross_origin"
+gem "sqlite3"
+gem "puma"
+gem "sequel"
+gem "json"
