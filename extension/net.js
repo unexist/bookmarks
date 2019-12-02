@@ -13,10 +13,18 @@ const URL = "http://localhost:7000";
 
 /**
  * Load bookmarks from server
- */
+ *
+ * @param  {Integer}  tagid  Optional tag ID
+ **/
 
-async function loadBookmarks() {
-    const response = await fetch(URL + "/bookmarks", {
+async function loadBookmarks(tagid) {
+    var url = URL + "/bookmarks";
+
+    if (Number.isInteger(tagid)) {
+        url += "/" + tagid;
+    }
+
+    const response = await fetch(url, {
         method: "GET",
         headers: {
             "accept": "application/json"

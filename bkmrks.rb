@@ -71,6 +71,12 @@ get "/bookmarks" do
     json bookmarks.map { |b| b.to_hash }
 end
 
+get "/bookmarks/:tagid" do
+    bookmarks = Bookmark.where(tag_id: params[:tagid]).all || []
+
+    json bookmarks.map { |b| b.to_hash }
+end
+
 get "/tags" do
     tags = Tag.all || []
 

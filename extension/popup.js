@@ -41,6 +41,12 @@ function renderTag(elem) {
     a.text = elem.name;
     a.classList.add("entry");
 
+    a.addEventListener("click", () => {
+        showPage("bookmarks", () => {
+            return loadBookmarks(elem.id);
+        }, renderBookmark)
+    });
+
     return a;
 }
 
