@@ -92,7 +92,7 @@ async function addBookmark(tag, name, url, description) {
                 "name": COMITTER_MAIL,
                 "email": COMITTER_MAIL
             },
-            "content": atob(JSON.stringify({
+            "content": btoa(JSON.stringify({
                 "url": url,
                 "description": description
             }))

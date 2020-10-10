@@ -16,9 +16,6 @@ function showMenu(name) {
     document.getElementById("menu_" + name).classList.remove("hidden");
 }
 
-function toggleBookmark() {
-}
-
 function renderBookmark(elem) {
     const a = document.createElement("a");
 
@@ -26,6 +23,7 @@ function renderBookmark(elem) {
     a.target = "_new";
     a.classList.add("entry");
 
+    /* Load json content */
     if ("file" === elem.type) {
         loadFile(elem.download_url).then(response => {
             a.href = response.url;
@@ -91,7 +89,18 @@ function showPage(name, loadFunc, renderFunc, clickFunc) {
 }
 
 /* Events */
-document.getElementById("button_toggle").addEventListener("click", toggleBookmark);
+document.getElementById("button_add").addEventListener("click", () => {
+    showPage("tags", loadTags, renderTag, (elem) => {
+        /* Get current tab */
+        const b = chrome || browser;
+
+        b.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            addBookmark(elem.name, tabs[0].url, "Test").then(response => {
+                alert(tabs[0].url + " " + response.status + " " + response.statusText);
+            });
+        });
+    }, renderBookmark);
+});
 
 document.getElementById("button_tags").addEventListener("click", () => {
     showPage("tags", loadTags, renderTag, (elem) => {
