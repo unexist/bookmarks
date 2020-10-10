@@ -95,8 +95,8 @@ document.getElementById("button_add").addEventListener("click", () => {
         const b = chrome || browser;
 
         b.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            addBookmark(elem.name, tabs[0].url, "Test").then(response => {
-                alert(tabs[0].url + " " + response.status + " " + response.statusText);
+            addBookmark(elem.name, tabs[0].title, tabs[0].url, "Test").then(response => {
+                alert(response.status + " " + response.statusText);
             });
         });
     }, renderBookmark);

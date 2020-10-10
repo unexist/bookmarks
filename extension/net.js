@@ -16,6 +16,8 @@ const REPO_URL = "https://api.github.com/repos/" + REPO_USER + "/" + REPO_NAME;
 const COMITTER_USER = "unexist";
 const COMITTER_MAIL = "christoph@unexist.dev";
 
+const KEY = "";
+
 /**
  * Load bookmarks from server
  *
@@ -81,10 +83,10 @@ async function loadFile(path) {
  **/
 
 async function addBookmark(tag, name, url, description) {
-    var url = REPO_URL + "/contents/bookmarks/" + tag + "/" +
-        name.replace(/[^\w\s]/gi, "") + ".json";
+    let jsonurl = REPO_URL + "/contents/bookmarks/" + tag + "/" +
+      encodeURIComponent(name.replace(/[^\w\s]/gi, "")) + ".json";
 
-    return await fetch(REPO_URL, {
+    return await fetch(jsonurl, {
         method: "PUT",
         body: JSON.stringify({
             "message": "Added bookmark",
@@ -99,7 +101,8 @@ async function addBookmark(tag, name, url, description) {
         }),
         headers: {
             "accept": "application/json",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": "Basic " + btoa(REPO_USER + ":" + KEY)
         }
     });
 }
