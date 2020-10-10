@@ -1,6 +1,7 @@
 bootstrap:
 	cargo install cargo-generate
 	cargo install wasm-pack
+	npm init wasm-app
 
 pack:
 	@wasm-pack build

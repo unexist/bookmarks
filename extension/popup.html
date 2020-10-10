@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Bookmarks</title>
+        <link rel="stylesheet" type="text/css" href="popup.css">
+    </head>
+
+    <body class="dark_gray">
+        <div id="menu_main" class="menu">
+            <span class="header">Bookmarks</span>
+            <a id="button_toggle" class="entry">
+                <img src="icons/star-empty-38.png"/>
+                Add/Remove
+            </a>
+
+            <a id="button_tags" class="entry">
+                <img src="icons/star-empty-38.png"/>
+                Show tags
+            </a>
+
+            <a id="button_bookmarks" class="entry">
+                <img src="icons/star-empty-38.png"/>
+                Show bookmarks
+            </a>
+        </div>
+
+        <div id="menu_tags" class="menu hidden">
+            <span class="header">Bookmark > Tags</span>
+            <div id="tags_spinner" class="entry hidden">
+                <div class="spinner spin"></div>
+            </div>
+            <div id="tags_list" class="hidden"></div>
+
+            <a class="entry back">
+                Back
+            </a>
+        </div>
+
+        <div id="menu_bookmarks" class="menu hidden">
+            <span class="header">Bookmark > Bookmarks</span>
+            <div id="bookmarks_spinner" class="entry hidden">
+                <div class="spinner spin"></div>
+            </div>
+            <div id="bookmarks_list" class="hidden"></div>
+
+            <a class="entry back">
+                Back
+            </a>
+        </div>
+
+        <!-- Late loading -->
+        <script src="net.js"></script>
+        <script src="popup.js"></script>
+    </body>
+</html>

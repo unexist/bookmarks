@@ -1,0 +1,98 @@
+/* Colors */
+:root {
+    --col_text: #fff;
+    --col_blue: #650afd;
+    --col_light_purple: #5e2fa6;
+    --col_dark_purple: #5b417b;
+    --col_light_gray: #57534f;
+    --col_dark_gray: #292929;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+    font-size: 80%;
+    background-color: var(--col_dark_gray);
+}
+
+a:active, a:link, a:visited {
+    text-decoration: none;
+    color: var(--col_text);
+}
+
+/* Menu */
+.menu {
+    background-color: var(--col_dark_gray);
+    padding: 5px;
+    width: 200px;
+}
+
+.menu > * {
+    padding: 5px;
+    line-height: 50px;
+    color: #fff;
+}
+
+.menu .header {
+    display: block;
+    border-bottom: 1px solid var(--col_dark_purple);
+}
+
+.menu .entry {
+    display: block;
+    border-bottom: 1px solid var(--col_light_gray);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+}
+
+.menu .entry:hover {
+    color: var(--col_light_purple);
+    border-bottom: 1px solid var(--col_dark_purple);
+}
+
+.menu .entry img {
+    width: 32px;
+    height: 32px;
+    vertical-align: middle;
+}
+
+.menu .entry:last-child {
+    border-bottom: none;
+}
+
+.menu .back {
+    border-top: 1px solid var(--col_light_purple);
+}
+
+/* Misc */
+.visible {
+    display: inherit;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Spinner */
+.spinner {
+    width: 32px;
+    height: 32px;
+    border: 16px solid var(--col_dark_gray);
+    border-top: 16px solid var(--col_light_purple);
+    border-radius: 50%;
+    margin: 0px auto;
+}
+
+.spin {
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg) }
+    to { transform: rotate(360deg) }
+}

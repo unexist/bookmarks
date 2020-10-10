@@ -1,0 +1,28 @@
+{
+    "manifest_version": 2,
+    "name": "Bookmarks",
+    "version": "0.0",
+    "description": "Bookmark tool",
+    "homepage_url": "https://subforge.org",
+    "icons": {
+        "48": "icons/bookmark.png",
+        "96": "icons/bookmark@2x.png"
+    },
+    "permissions": [
+        "bookmarks",
+        "tabs",
+        "activeTab"
+    ],
+    "browser_action": {
+        "default_icon": "icons/star-empty-38.png",
+        "default_title": "Bookmark",
+        "default_popup": "popup.html"
+    },
+    "background": {
+        "scripts": [
+            "net.js",
+            "extension.js",
+            "background.js"
+        ]
+    }
+}
