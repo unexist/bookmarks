@@ -96,7 +96,9 @@ document.getElementById("button_add").addEventListener("click", () => {
 
         b.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             addBookmark(elem.name, tabs[0].title, tabs[0].url, "Test").then(response => {
-                alert(response.status + " " + response.statusText);
+                if (201 !== response.status) {
+                    alert(response.status + " " + response.statusText);
+                }
             });
         });
     }, renderBookmark);
