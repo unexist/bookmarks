@@ -1,7 +1,6 @@
-INCLUDES=-Isrc/duktape
-CFLAGS=-mmacosx-version-min=10.12 -x objective-c
-LDFLAGS=-fobjc-link-runtime -lm $(FRAMEWORKS)
-DUKCFLAGS=-DDUK_USE_DEBUG -DDUK_USE_DEBUG_LEVEL=0
+bootstrap:
+	cargo install cargo-generate
+	cargo install wasm-pack
 
 pack:
 	@wasm-pack build
