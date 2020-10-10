@@ -41,7 +41,6 @@ DB = Sequel.sqlite("bkmrks.db")
 
 DB.create_table? :bookmarks do
     primary_key :id
-    foreign_key :tag_id, :tags
 
     String :uri, unique: true, null: false
 
@@ -56,6 +55,11 @@ DB.create_table? :tags do
 
     DateTime :created_at, default: Sequel::CURRENT_TIMESTAMP
 end
+
+#DB.create_table? :bookmarks_tags do
+#    foreign_key :bookmark_id, :bookmarks, key: :id
+#    foreign_key :
+#end
 
 # Models
 class Bookmark < Sequel::Model
@@ -100,10 +104,10 @@ post "/*" do
             end
 
             json bookmark.to_hash
-        rescue Sequel::UniqueConstraintViolation => e
+        rescue Sequel::UniqueConstraintViolation => error
             409
-        rescue Sequel::Error => e
-            p e
+        rescue Sequel::Error => error
+            puts error
 
             500
         end
