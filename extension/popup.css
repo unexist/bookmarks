@@ -35,6 +35,7 @@ a:active, a:link, a:visited {
     padding: 5px;
     line-height: 50px;
     color: #fff;
+    text-transform: capitalize;
 }
 
 .menu .header {

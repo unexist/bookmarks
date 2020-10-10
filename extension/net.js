@@ -9,19 +9,22 @@
  * See the file COPYING
  **/
 
-const URL = "http://localhost:7000";
+const USER = "unexist";
+const REPO = "bookmarks";
+const REPO_URL = "https://api.github.com/repos/" + USER + "/" + REPO;
+const FILE_URL = "https://github.com/" + USER + "/" + REPO + "/blob/main/bookmarks";
 
 /**
  * Load bookmarks from server
  *
- * @param  {Integer}  tagid  Optional tag ID
+ * @param  {String}  tagname  Optional tag name
  **/
 
-async function loadBookmarks(tagid) {
-    var url = URL + "/bookmarks";
+async function loadBookmarks(tagname) {
+    var url = REPO_URL + "/contents/bookmarks";
 
-    if (Number.isInteger(tagid)) {
-        url += "/" + tagid;
+    if (undefined !== tagname) {
+        url += "/" + tagname;
     }
 
     const response = await fetch(url, {
@@ -39,7 +42,7 @@ async function loadBookmarks(tagid) {
  */
 
 async function loadTags() {
-    const response = await fetch(URL + "/tags", {
+    const response = await fetch(REPO_URL + "/contents/bookmarks", {
         method: "GET",
         headers: {
             "accept": "application/json"
@@ -50,6 +53,24 @@ async function loadTags() {
 }
 
 /**
+ * Load file from server
+ *
+ * @param  {String}  path  Path of file to load
+ **/
+
+async function loadFile(path) {
+    const response = await fetch(path, {
+        method: "GET",
+        headers: {
+            "accept": "application/json"
+        }
+    });
+
+    return await response.json();
+}
+
+
+/**
  * Check whether given url is already bookmarked
  *
  * @param {String}  urlString . Url as string
@@ -58,7 +79,7 @@ async function loadTags() {
  */
 
 async function isBookmarked(urlString) {
-    return await fetch(URL + "/check", {
+    return await fetch(REPO_URL + "/check", {
         method: "POST",
         body: urlString,
         headers: {
@@ -75,7 +96,7 @@ async function isBookmarked(urlString) {
  **/
 
 async function addBookmark(urlString) {
-    return await fetch(URL, {
+    return await fetch(REPO_URL, {
         method: "POST",
         body: urlString,
         headers: {

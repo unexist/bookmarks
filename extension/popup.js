@@ -23,14 +23,17 @@ function renderBookmark(elem) {
     const a = document.createElement("a");
     const d = new Date(Date.parse(elem.checked_at));
 
-    a.href = elem.uri;
-    a.text = elem.uri;
+    a.text = elem.name.substr(0, elem.name.lastIndexOf("."));
     a.target = "_new";
     a.classList.add("entry");
 
-    a.setAttribute("title", "Last checked: " +
-        d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate()
-    );
+    loadFile(elem.download_url).then(response => {
+        a.href = response.url;
+
+        if (null != response.description) {
+            a.setAttribute("title", response.description);
+        }
+    });
 
     return a;
 }
@@ -43,7 +46,7 @@ function renderTag(elem) {
 
     a.addEventListener("click", () => {
         showPage("bookmarks", () => {
-            return loadBookmarks(elem.id);
+            return loadBookmarks(elem.name);
         }, renderBookmark)
     });
 
@@ -90,12 +93,14 @@ document.getElementById("button_tags").addEventListener("click", () => {
     showPage("tags", loadTags, renderTag);
 });
 
-document.getElementById("button_bookmarks").addEventListener("click", () => {
-    showPage("bookmarks", loadBookmarks, renderBookmark);
-});
-
 document.querySelectorAll(".entry.back").forEach(elem => {
     elem.addEventListener("click", () => {
-        showMenu("main");;
+        if (document.getElementById("menu_tags")
+            .classList.contains("hidden"))
+        {
+            showMenu("tags");
+        } else {
+            showMenu("main");
+        }
     });
 });
