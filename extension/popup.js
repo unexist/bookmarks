@@ -21,19 +21,20 @@ function toggleBookmark() {
 
 function renderBookmark(elem) {
     const a = document.createElement("a");
-    const d = new Date(Date.parse(elem.checked_at));
 
     a.text = elem.name.substr(0, elem.name.lastIndexOf("."));
     a.target = "_new";
     a.classList.add("entry");
 
-    loadFile(elem.download_url).then(response => {
-        a.href = response.url;
+    if ("file" === elem.type) {
+        loadFile(elem.download_url).then(response => {
+            a.href = response.url;
 
-        if (null != response.description) {
-            a.setAttribute("title", response.description);
-        }
-    });
+            if (null != response.description) {
+                a.setAttribute("title", response.description);
+            }
+        });
+    }
 
     return a;
 }
@@ -43,12 +44,6 @@ function renderTag(elem) {
 
     a.text = elem.name;
     a.classList.add("entry");
-
-    a.addEventListener("click", () => {
-        showPage("bookmarks", () => {
-            return loadBookmarks(elem.name);
-        }, renderBookmark)
-    });
 
     return a;
 }
@@ -62,7 +57,7 @@ function renderPlaceholder(text) {
     return a;
 }
 
-function showPage(name, loadFunc, renderFunc) {
+function showPage(name, loadFunc, renderFunc, clickFunc) {
     showMenu(name);
 
     loadFunc().then(response => {
@@ -73,7 +68,16 @@ function showPage(name, loadFunc, renderFunc) {
         list.innerHTML = "";
 
         response.forEach(elem => {
-            list.appendChild(renderFunc(elem));
+            const entry = renderFunc(elem);
+
+            /* Add click func if any */
+            if (null != clickFunc) {
+                entry.addEventListener("click", () => {
+                    clickFunc(elem);
+                });
+            }
+
+            list.appendChild(entry);
         });
 
         /* Placeholder? */
@@ -90,7 +94,11 @@ function showPage(name, loadFunc, renderFunc) {
 document.getElementById("button_toggle").addEventListener("click", toggleBookmark);
 
 document.getElementById("button_tags").addEventListener("click", () => {
-    showPage("tags", loadTags, renderTag);
+    showPage("tags", loadTags, renderTag, (elem) => {
+        showPage("bookmarks", () => {
+            return loadBookmarks(elem.name);
+        }, renderBookmark)
+    });
 });
 
 document.querySelectorAll(".entry.back").forEach(elem => {

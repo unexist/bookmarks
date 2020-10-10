@@ -9,10 +9,12 @@
  * See the file COPYING
  **/
 
-const USER = "unexist";
-const REPO = "bookmarks";
-const REPO_URL = "https://api.github.com/repos/" + USER + "/" + REPO;
-const FILE_URL = "https://github.com/" + USER + "/" + REPO + "/blob/main/bookmarks";
+const REPO_USER = "unexist";
+const REPO_NAME = "bookmarks";
+const REPO_URL = "https://api.github.com/repos/" + REPO_USER + "/" + REPO_NAME;
+
+const COMITTER_USER = "unexist";
+const COMITTER_MAIL = "christoph@unexist.dev";
 
 /**
  * Load bookmarks from server
@@ -69,36 +71,32 @@ async function loadFile(path) {
     return await response.json();
 }
 
-
-/**
- * Check whether given url is already bookmarked
- *
- * @param {String}  urlString . Url as string
- *
- * TODO: Cache?
- */
-
-async function isBookmarked(urlString) {
-    return await fetch(REPO_URL + "/check", {
-        method: "POST",
-        body: urlString,
-        headers: {
-            "accept": "application/json",
-            "Content-Type": "application/json"
-        }
-    });
-}
-
 /**
  * Add given url to bookmark list
  *
- * @param {String}  urlString . Url as string
+ * @param {String}  tag          Name of the tag
+ * @param {String}  name         Name of the entry
+ * @param {String}  url          Url of the entry
+ * @param {String}  description  Descriprtion of the entry
  **/
 
-async function addBookmark(urlString) {
+async function addBookmark(tag, name, url, description) {
+    var url = REPO_URL + "/contents/bookmarks/" + tag + "/" +
+        name.replace(/[^\w\s]/gi, "") + ".json";
+
     return await fetch(REPO_URL, {
-        method: "POST",
-        body: urlString,
+        method: "PUT",
+        body: JSON.stringify({
+            "message": "Added bookmark",
+            "committer": {
+                "name": COMITTER_MAIL,
+                "email": COMITTER_MAIL
+            },
+            "content": atob(JSON.stringify({
+                "url": url,
+                "description": description
+            }))
+        }),
         headers: {
             "accept": "application/json",
             "Content-Type": "application/json"
